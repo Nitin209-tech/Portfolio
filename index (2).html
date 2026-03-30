@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nitin — Tech & Design Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg:        #000000;
+  --bg1:       #0a0a0a;
+  --bg2:       #111111;
+  --bg3:       #1a1a1a;
+  --glass:     rgba(255,255,255,0.04);
+  --glass2:    rgba(255,255,255,0.08);
+  --glass3:    rgba(255,255,255,0.12);
+  --border:    rgba(255,255,255,0.09);
+  --border2:   rgba(255,255,255,0.15);
+  --white:     #f5f5f7;
+  --gray1:     #a1a1a6;
+  --gray2:     #6e6e73;
+  --gray3:     #3a3a3c;
+  --blue:      #2997ff;
+  --blue-glow: rgba(41,151,255,0.25);
+  --purple:    #bf5af2;
+  --green:     #30d158;
+  --orange:    #ff9f0a;
+  --radius:    20px;
+  --radius-lg: 32px;
+  --radius-xl: 48px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  padding: 0 40px; height: 52px;
+  display: flex; align-items:center; justify-content:space-between;
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-logo { font-size:17px; font-weight:600; letter-spacing:-0.02em; color:var(--white); text-decoration:none; }
+.nav-links { display:flex; gap:28px; list-style:none; }
+.nav-links a { font-size:13px; font-weight:300; color:var(--gray1); text-decoration:none; transition:color .2s; }
+.nav-links a:hover { color:var(--white); }
+.nav-btn { font-size:12px; font-weight:400; color:var(--blue); text-decoration:none; transition:opacity .2s; }
+.nav-btn:hover { opacity:.7; }
+
+/* ── HERO ── */
+#home {
+  min-height: 100vh;
+  display: flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:100px 32px 80px;
+  position:relative; overflow:hidden;
+}
+.hero-glow {
+  position:absolute; width:700px; height:700px; border-radius:50%;
+  background:radial-gradient(circle,rgba(41,151,255,0.1) 0%,transparent 70%);
+  top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;
+  animation:orb 8s ease-in-out infinite;
+}
+.hero-glow2 {
+  width:350px; height:350px;
+  background:radial-gradient(circle,rgba(191,90,242,0.08) 0%,transparent 70%);
+  animation:orb 6s ease-in-out infinite reverse;
+}
+@keyframes orb { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-53%) scale(1.1)} }
+
+.hero-chip {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:7px 16px;
+  background:var(--glass2); border:1px solid var(--border2);
+  border-radius:100px; font-size:12px; font-weight:400; color:var(--gray1);
+  margin-bottom:32px; backdrop-filter:blur(10px);
+  opacity:0; animation:fadeUp .8s ease .1s forwards;
+}
+.chip-dot { width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.hero-headline {
+  font-size:clamp(52px,8vw,96px); font-weight:700;
+  line-height:1.02; letter-spacing:-0.04em;
+  opacity:0; animation:fadeUp .9s ease .25s forwards;
+}
+.hero-headline .blue { color:var(--blue); }
+.hero-headline .purple { color:var(--purple); }
+
+.hero-sub {
+  font-size:clamp(17px,2.2vw,24px); font-weight:200; color:var(--gray1);
+  letter-spacing:-0.01em; margin-top:16px; line-height:1.5;
+  opacity:0; animation:fadeUp .9s ease .4s forwards;
+}
+
+.hero-actions {
+  margin-top:44px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  opacity:0; animation:fadeUp .9s ease .55s forwards;
+}
+.btn-blue {
+  padding:14px 32px; background:var(--blue); color:#fff;
+  font-size:15px; font-weight:400; letter-spacing:-0.01em;
+  text-decoration:none; border-radius:980px;
+  transition:all .25s; box-shadow:0 0 30px rgba(41,151,255,0.3);
+}
+.btn-blue:hover { background:#4dacff; box-shadow:0 0 50px rgba(41,151,255,0.5); transform:scale(1.02); }
+.btn-outline-pill {
+  padding:14px 32px; background:var(--glass2); color:var(--white);
+  font-size:15px; font-weight:400; letter-spacing:-0.01em;
+  text-decoration:none; border-radius:980px;
+  border:1px solid var(--border2); backdrop-filter:blur(10px);
+  transition:all .25s;
+}
+.btn-outline-pill:hover { background:var(--glass3); transform:scale(1.02); }
+
+.hero-stats {
+  display:flex; gap:1px; margin-top:80px;
+  background:var(--border); border-radius:var(--radius-lg);
+  overflow:hidden; max-width:520px; border:1px solid var(--border);
+  opacity:0; animation:fadeUp .9s ease .8s forwards;
+}
+.stat-box { flex:1; padding:20px 24px; background:var(--glass); text-align:center; transition:background .2s; }
+.stat-box:hover { background:var(--glass2); }
+.stat-n { font-size:30px; font-weight:700; letter-spacing:-0.04em; line-height:1; }
+.stat-u { font-size:16px; font-weight:300; color:var(--blue); }
+.stat-l { font-size:11px; color:var(--gray2); margin-top:4px; }
+
+/* ── GLASS CARD ── */
+.glass-card {
+  background:var(--glass); border:1px solid var(--border);
+  border-radius:var(--radius-lg); backdrop-filter:blur(20px);
+  overflow:hidden; position:relative; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.glass-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
+  pointer-events:none;
+}
+.glass-card:hover { transform:translateY(-5px); box-shadow:0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08); border-color:var(--border2); }
+
+/* ── SECTIONS ── */
+.section-wrap { padding:100px 32px; max-width:1200px; margin:0 auto; }
+.section-eyebrow { font-size:13px; font-weight:400; color:var(--blue); letter-spacing:.05em; text-transform:uppercase; margin-bottom:12px; }
+.section-title { font-size:clamp(36px,5vw,60px); font-weight:700; letter-spacing:-0.04em; line-height:1.05; }
+.section-title .dim { color:var(--gray2); }
+.section-sub { font-size:17px; font-weight:300; color:var(--gray1); line-height:1.6; margin-top:14px; max-width:520px; }
+
+/* ── ABOUT ── */
+#about { background:var(--bg1); }
+.about-bento {
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr;
+  gap:14px; margin-top:56px;
+}
+.bento-bio { grid-column:1; grid-row:1/3; padding:44px; display:flex; flex-direction:column; justify-content:space-between; min-height:420px; }
+.bio-avatar {
+  width:72px; height:72px; border-radius:50%;
+  background:linear-gradient(135deg,#1d1d1f,#2d2d2f);
+  border:2px solid var(--border2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; font-weight:700; color:var(--blue);
+  margin-bottom:24px;
+}
+.bento-bio h3 { font-size:24px; font-weight:600; letter-spacing:-0.03em; margin-bottom:12px; }
+.bento-bio p { font-size:15px; color:var(--gray1); line-height:1.75; font-weight:300; }
+.bio-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:28px; }
+.bio-tag {
+  padding:6px 14px; background:var(--glass2); border:1px solid var(--border2);
+  border-radius:100px; font-size:12px; color:var(--gray1); transition:all .2s;
+}
+.bio-tag:hover { background:var(--glass3); color:var(--white); }
+
+.bento-num { padding:32px; display:flex; flex-direction:column; justify-content:space-between; }
+.bento-num-val { font-size:52px; font-weight:700; letter-spacing:-0.05em; line-height:1; }
+.bento-num-val .accent { font-size:26px; color:var(--blue); font-weight:300; }
+.bento-num-lbl { font-size:13px; color:var(--gray2); margin-top:4px; }
+.bento-num-desc { font-size:14px; color:var(--gray1); font-weight:300; line-height:1.55; margin-top:14px; }
+
+.bento-avail { padding:32px; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(135deg,rgba(41,151,255,0.07),rgba(41,151,255,0.02)); border-color:rgba(41,151,255,0.18) !important; }
+.avail-dot { width:10px; height:10px; background:var(--green); border-radius:50%; box-shadow:0 0 10px var(--green); margin-bottom:14px; animation:pulse 2s infinite; }
+.bento-avail h4 { font-size:17px; font-weight:600; letter-spacing:-0.02em; }
+.bento-avail p { font-size:13px; color:var(--gray1); margin-top:6px; }
+
+.bento-loc { padding:32px; }
+.bento-loc .icon { font-size:26px; margin-bottom:12px; }
+.bento-loc h4 { font-size:16px; font-weight:600; letter-spacing:-0.02em; }
+.bento-loc p { font-size:13px; color:var(--gray2); margin-top:4px; line-height:1.6; }
+
+/* ── SKILLS ── */
+#skills { background:var(--bg); }
+.skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:56px; }
+.skill-card { padding:36px 32px; display:flex; flex-direction:column; gap:18px; }
+.skill-icon-box {
+  width:50px; height:50px; border-radius:14px;
+  background:var(--glass2); border:1px solid var(--border2);
+  display:flex; align-items:center; justify-content:center;
+}
+.skill-icon-box svg { width:24px; height:24px; }
+.skill-nm { font-size:18px; font-weight:600; letter-spacing:-0.02em; }
+.skill-ds { font-size:14px; color:var(--gray1); line-height:1.6; font-weight:300; }
+.skill-bar-row { margin-top:auto; }
+.skill-track { height:3px; background:var(--gray3); border-radius:100px; overflow:hidden; }
+.skill-fill { height:100%; border-radius:100px; width:0; transition:width 1.4s cubic-bezier(.16,1,.3,1); }
+.skill-meta { display:flex; justify-content:space-between; margin-top:8px; }
+.skill-meta-lbl { font-size:11px; color:var(--gray2); }
+.skill-meta-pct { font-size:11px; font-weight:500; }
+
+/* ── PROJECTS ── */
+#projects { background:var(--bg1); }
+
+/* ElevateIQ Featured Card */
+.elevate-card { border-radius:var(--radius-xl); overflow:hidden; margin-top:56px; margin-bottom:14px; }
+.elevate-hero {
+  padding:64px 56px;
+  background:linear-gradient(135deg,#070710 0%,#0d0d1e 40%,#070710 100%);
+  position:relative; overflow:hidden;
+  display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+}
+.elevate-glow1 { position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(191,90,242,0.15),transparent); top:-100px; right:-100px; pointer-events:none; }
+.elevate-glow2 { position:absolute; width:300px; height:300px; border-radius:50%; background:radial-gradient(circle,rgba(41,151,255,0.1),transparent); bottom:-50px; left:100px; pointer-events:none; }
+.elevate-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 14px; border-radius:100px;
+  background:rgba(191,90,242,0.15); border:1px solid rgba(191,90,242,0.3);
+  font-size:11px; color:var(--purple); letter-spacing:.08em; text-transform:uppercase;
+  margin-bottom:20px; font-weight:400;
+}
+.elevate-title { font-size:clamp(36px,4vw,52px); font-weight:700; letter-spacing:-0.04em; line-height:1.05; margin-bottom:16px; }
+.elevate-title .gradient-text {
+  background:linear-gradient(135deg,#bf5af2,#2997ff);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.elevate-desc { font-size:16px; color:var(--gray1); line-height:1.75; font-weight:300; margin-bottom:28px; }
+.elevate-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px; }
+.elevate-tag {
+  padding:6px 14px; border-radius:100px;
+  background:var(--glass2); border:1px solid var(--border2);
+  font-size:12px; color:var(--gray1);
+}
+.elevate-link {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:13px 28px; background:linear-gradient(135deg,#bf5af2,#7b5bf2);
+  color:#fff; border-radius:980px; text-decoration:none;
+  font-size:14px; font-weight:500; transition:all .3s;
+  box-shadow:0 0 30px rgba(191,90,242,0.3);
+}
+.elevate-link:hover { box-shadow:0 0 50px rgba(191,90,242,0.5); transform:scale(1.03); }
+
+/* ElevateIQ features grid inside card */
+.elevate-features { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.feat-box {
+  padding:24px 22px; border-radius:18px;
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+  transition:all .3s;
+}
+.feat-box:hover { background:rgba(255,255,255,0.07); border-color:rgba(191,90,242,0.25); }
+.feat-icon { font-size:22px; margin-bottom:10px; }
+.feat-title { font-size:14px; font-weight:600; letter-spacing:-0.01em; margin-bottom:6px; }
+.feat-desc { font-size:12px; color:var(--gray2); line-height:1.55; }
+
+/* Other project cards */
+.projects-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.proj-card { border-radius:var(--radius-xl); overflow:hidden; }
+.proj-visual { aspect-ratio:16/9; position:relative; overflow:hidden; }
+.proj-visual-inner {
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  position:relative; transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.proj-card:hover .proj-visual-inner { transform:scale(1.04); }
+.proj-info { padding:28px 32px 32px; }
+.proj-chips { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.proj-chip {
+  padding:4px 12px; border-radius:100px;
+  background:var(--glass2); border:1px solid var(--border2);
+  font-size:11px; letter-spacing:.04em;
+}
+.proj-name { font-size:20px; font-weight:600; letter-spacing:-0.03em; margin-bottom:8px; }
+.proj-desc { font-size:14px; color:var(--gray1); line-height:1.6; font-weight:300; }
+.proj-year { font-size:12px; color:var(--gray2); margin-top:16px; }
+
+/* Visual BGs */
+.vbg-bot { background:linear-gradient(135deg,#050a10 0%,#0a1520 50%,#050a10 100%); }
+.vbg-web { background:linear-gradient(135deg,#0a0805 0%,#1a1208 50%,#0a0805 100%); }
+
+/* ── CONTACT ── */
+#contact { background:var(--bg); }
+.contact-layout { display:grid; grid-template-columns:1.4fr 1fr; gap:14px; margin-top:56px; }
+.contact-form-card { padding:44px; }
+.contact-form-card h3 { font-size:22px; font-weight:600; letter-spacing:-0.03em; margin-bottom:6px; }
+.contact-form-card .sub { font-size:14px; color:var(--gray1); margin-bottom:32px; }
+.apple-input {
+  width:100%; padding:14px 18px;
+  background:var(--bg2); border:1px solid var(--gray3);
+  border-radius:12px; color:var(--white);
+  font-size:15px; font-family:inherit; font-weight:300;
+  outline:none; transition:border-color .2s, box-shadow .2s;
+  margin-bottom:12px; display:block;
+}
+.apple-input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(41,151,255,0.15); }
+.apple-input::placeholder { color:var(--gray2); }
+textarea.apple-input { height:110px; resize:none; }
+.apple-submit {
+  width:100%; padding:15px; background:var(--blue);
+  color:#fff; border:none; border-radius:12px;
+  font-size:15px; font-weight:500; font-family:inherit;
+  cursor:pointer; transition:all .25s; margin-top:4px;
+  box-shadow:0 0 30px rgba(41,151,255,0.2);
+}
+.apple-submit:hover { background:#4dacff; box-shadow:0 0 50px rgba(41,151,255,0.4); transform:scale(1.01); }
+
+.contact-side { display:flex; flex-direction:column; gap:14px; }
+.contact-box { padding:30px; }
+.contact-box .icon { font-size:26px; margin-bottom:12px; }
+.contact-box h4 { font-size:16px; font-weight:600; letter-spacing:-0.02em; margin-bottom:6px; }
+.contact-box p { font-size:13px; color:var(--gray1); line-height:1.6; }
+.contact-box a { color:var(--blue); text-decoration:none; }
+.contact-box a:hover { text-decoration:underline; }
+
+/* ── FOOTER ── */
+footer { background:var(--bg1); border-top:1px solid var(--border); padding:40px 32px; text-align:center; }
+.footer-name { font-size:19px; font-weight:600; letter-spacing:-0.03em; margin-bottom:8px; }
+.footer-sub { font-size:12px; color:var(--gray2); }
+
+/* ── ANIM ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+.reveal { opacity:0; transform:translateY(36px); transition:opacity .8s ease,transform .8s ease; }
+.reveal.visible { opacity:1; transform:none; }
+.d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s} .d4{transition-delay:.4s} .d5{transition-delay:.5s}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  nav{padding:0 16px;}
+  .nav-links{display:none;}
+
+  /* Hero — tighter, no wasted space */
+  #home{
+    padding:70px 20px 48px;
+    min-height:auto;
+    justify-content:flex-start;
+    padding-top:90px;
+  }
+  .hero-chip{ margin-bottom:20px; }
+  .hero-headline{ font-size:48px; margin-bottom:0; }
+  .hero-sub{ font-size:15px; margin-top:12px; }
+  .hero-actions{ margin-top:28px; gap:10px; }
+  .btn-blue,.btn-outline-pill{ padding:12px 22px; font-size:14px; }
+
+  /* Stats — keep horizontal, shrink */
+  .hero-stats{
+    flex-direction:row !important;
+    max-width:100%; margin-top:36px;
+    border-radius:var(--radius);
+  }
+  .stat-box{ padding:14px 8px; }
+  .stat-n{ font-size:22px; }
+  .stat-u{ font-size:13px; }
+  .stat-l{ font-size:10px; }
+
+  /* Section spacing */
+  .section-wrap{ padding:56px 16px; }
+
+  /* About bento */
+  .about-bento{
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
+  }
+  .bento-bio{
+    grid-column:1 !important; grid-row:auto !important;
+    min-height:auto; padding:24px;
+  }
+  .bento-num{
+    grid-column:1 !important; grid-row:auto !important;
+    padding:22px;
+  }
+  .bento-avail{
+    grid-column:1 !important; grid-row:auto !important;
+    padding:22px;
+  }
+  .bento-loc{
+    grid-column:1 !important; grid-row:auto !important;
+    padding:22px;
+  }
+  .bento-num-val{ font-size:42px; }
+
+  /* Skills */
+  .skills-grid{ grid-template-columns:1fr; }
+  .skill-card{ padding:22px; }
+
+  /* Projects */
+  .projects-grid{ grid-template-columns:1fr; }
+  .proj-card.span2{ grid-column:1; }
+  .elevate-hero{
+    grid-template-columns:1fr;
+    padding:24px 20px; gap:24px;
+  }
+  .elevate-title{ font-size:28px; }
+  .elevate-features{ grid-template-columns:1fr 1fr; gap:8px; }
+  .feat-box{ padding:14px 12px; }
+  .feat-title{ font-size:12px; }
+  .feat-desc{ font-size:11px; }
+
+  /* Contact */
+  .contact-layout{ grid-template-columns:1fr; }
+  .contact-form-card{ padding:22px; }
+  .contact-box{ padding:22px; }
+
+  /* Footer */
+  footer{ padding:28px 16px; }
+}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gray3);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">Nitin</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-btn">Get in touch</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow hero-glow2"></div>
+
+  <div class="hero-chip">
+    <div class="chip-dot"></div>
+    Open to collaborations
+  </div>
+
+  <h1 class="hero-headline">
+    Tech. <span class="blue">Design.</span><br><span class="purple">Build.</span>
+  </h1>
+
+  <p class="hero-sub">
+    Founder of ElevateIQ &nbsp;·&nbsp; Video Editor &nbsp;·&nbsp; Developer<br>
+    <strong style="color:var(--white);font-weight:500">Nitin</strong> — nitin_209_
+  </p>
+
+  <div class="hero-actions">
+    <a href="#projects" class="btn-blue">View Projects</a>
+    <a href="#contact" class="btn-outline-pill">Let's Talk</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-box">
+      <div class="stat-n">3<span class="stat-u">+</span></div>
+      <div class="stat-l">Years</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-n">40<span class="stat-u">+</span></div>
+      <div class="stat-l">Projects</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-n">15<span class="stat-u">+</span></div>
+      <div class="stat-l">Clients</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-eyebrow reveal">About Me</div>
+    <h2 class="section-title reveal d1">Who is <span class="dim">Nitin?</span></h2>
+    <p class="section-sub reveal d2">Tech & Design Explorer with a passion for building communities and digital products.</p>
+
+    <div class="about-bento">
+      <div class="glass-card bento-bio reveal d1">
+        <div>
+          <div class="bio-avatar">N</div>
+          <h3>Nitin</h3>
+          <p>I'm a self-taught builder from India. I founded <strong style="color:var(--white)">ElevateIQ</strong> — a growing community for editors and creators. I love coding, building Discord bots, video editing, and turning ideas into real products.</p>
+          <p style="margin-top:14px">Blender &amp; Triangle badge holder · Discord since Oct 2024</p>
+        </div>
+        <div>
+          <p style="font-size:13px;color:var(--gray2);margin-bottom:14px">Instagram — <a href="https://www.instagram.com/nitin_209_" style="color:var(--blue);text-decoration:none">@nitin_209_</a></p>
+          <div class="bio-tags">
+            <span class="bio-tag">Founder</span>
+            <span class="bio-tag">Developer</span>
+            <span class="bio-tag">Video Editor</span>
+            <span class="bio-tag">Entrepreneur</span>
+            <span class="bio-tag">Community Builder</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card bento-num reveal d2">
+        <div>
+          <div class="bento-num-val">40<span class="accent">+</span></div>
+          <div class="bento-num-lbl">Projects Done</div>
+        </div>
+        <div class="bento-num-desc">From Discord bots to community platforms — building real things that people actually use.</div>
+      </div>
+
+      <div class="glass-card bento-avail reveal d3">
+        <div class="avail-dot"></div>
+        <h4>Open to Work</h4>
+        <p>Taking on freelance projects — editing, coding & community management.</p>
+      </div>
+
+      <div class="glass-card bento-num reveal d2" style="grid-column:2" data-col="2">
+        <div>
+          <div class="bento-num-val">1<span class="accent">K+</span></div>
+          <div class="bento-num-lbl">Community Members</div>
+        </div>
+        <div class="bento-num-desc">ElevateIQ growing every day — editors, creators & entrepreneurs.</div>
+      </div>
+
+      <div class="glass-card bento-loc reveal d3" style="grid-column:3">
+        <div class="icon">📍</div>
+        <h4>India</h4>
+        <p>Available worldwide for remote projects &amp; collabs</p>
+        <div style="margin-top:16px;font-size:12px;color:var(--gray2);line-height:1.7">Discord.js · Node.js<br>Blender · Premiere Pro · After Effects</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-eyebrow reveal">Skills</div>
+    <h2 class="section-title reveal d1">What I <span class="dim">Can Do</span></h2>
+    <p class="section-sub reveal d2">Always learning, always building.</p>
+
+    <div class="skills-grid">
+
+      <div class="glass-card skill-card reveal d1">
+        <div class="skill-icon-box" style="background:rgba(41,151,255,0.12);border-color:rgba(41,151,255,0.2)">
+          <svg fill="none" stroke="#2997ff" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"/></svg>
+        </div>
+        <div class="skill-nm">Coding / Development</div>
+        <div class="skill-ds">Building Discord bots, web apps, automation tools. Comfortable with Node.js, JavaScript, HTML/CSS.</div>
+        <div class="skill-bar-row">
+          <div class="skill-track"><div class="skill-fill" data-w="78" style="background:linear-gradient(90deg,#2997ff,#64d2ff);box-shadow:0 0 8px rgba(41,151,255,0.4)"></div></div>
+          <div class="skill-meta"><span class="skill-meta-lbl">Proficiency</span><span class="skill-meta-pct" style="color:#2997ff">78%</span></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card reveal d2">
+        <div class="skill-icon-box" style="background:rgba(191,90,242,0.12);border-color:rgba(191,90,242,0.2)">
+          <svg fill="none" stroke="#bf5af2" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5"/></svg>
+        </div>
+        <div class="skill-nm">Video Editing</div>
+        <div class="skill-ds">Basic to intermediate editing — cuts, transitions, colour correction. Still learning and improving every project.</div>
+        <div class="skill-bar-row">
+          <div class="skill-track"><div class="skill-fill" data-w="60" style="background:linear-gradient(90deg,#bf5af2,#da8fff);box-shadow:0 0 8px rgba(191,90,242,0.35)"></div></div>
+          <div class="skill-meta"><span class="skill-meta-lbl">Proficiency</span><span class="skill-meta-pct" style="color:#bf5af2">60%</span></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card reveal d3">
+        <div class="skill-icon-box" style="background:rgba(255,159,10,0.12);border-color:rgba(255,159,10,0.2)">
+          <svg fill="none" stroke="#ff9f0a" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+        </div>
+        <div class="skill-nm">Videography</div>
+        <div class="skill-ds">Basic shooting, framing & handheld camera work. Learning composition and lighting steadily.</div>
+        <div class="skill-bar-row">
+          <div class="skill-track"><div class="skill-fill" data-w="60" style="background:linear-gradient(90deg,#ff9f0a,#ffd60a);box-shadow:0 0 8px rgba(255,159,10,0.35)"></div></div>
+          <div class="skill-meta"><span class="skill-meta-lbl">Proficiency</span><span class="skill-meta-pct" style="color:#ff9f0a">60%</span></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card reveal d1">
+        <div class="skill-icon-box" style="background:rgba(48,209,88,0.12);border-color:rgba(48,209,88,0.2)">
+          <svg fill="none" stroke="#30d158" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg>
+        </div>
+        <div class="skill-nm">Community Building</div>
+        <div class="skill-ds">Founding and growing ElevateIQ — managing members, staff, events and reward systems.</div>
+        <div class="skill-bar-row">
+          <div class="skill-track"><div class="skill-fill" data-w="85" style="background:linear-gradient(90deg,#30d158,#66f78a);box-shadow:0 0 8px rgba(48,209,88,0.35)"></div></div>
+          <div class="skill-meta"><span class="skill-meta-lbl">Proficiency</span><span class="skill-meta-pct" style="color:#30d158">85%</span></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card reveal d2">
+        <div class="skill-icon-box" style="background:rgba(255,55,95,0.1);border-color:rgba(255,55,95,0.2)">
+          <svg fill="none" stroke="#ff375f" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/></svg>
+        </div>
+        <div class="skill-nm">Entrepreneurship</div>
+        <div class="skill-ds">Strategic thinking, brand identity, team management — building real value from scratch.</div>
+        <div class="skill-bar-row">
+          <div class="skill-track"><div class="skill-fill" data-w="72" style="background:linear-gradient(90deg,#ff375f,#ff6b8a);box-shadow:0 0 8px rgba(255,55,95,0.3)"></div></div>
+          <div class="skill-meta"><span class="skill-meta-lbl">Proficiency</span><span class="skill-meta-pct" style="color:#ff375f">72%</span></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card reveal d3">
+        <div class="skill-icon-box" style="background:rgba(100,210,255,0.1);border-color:rgba(100,210,255,0.2)">
+          <svg fill="none" stroke="#64d2ff" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+        </div>
+        <div class="skill-nm">Bot Development</div>
+        <div class="skill-ds">Built full Discord bots with AI integration, ticket systems, invite tracking, reward automation & more.</div>
+        <div class="skill-bar-row">
+          <div class="skill-track"><div class="skill-fill" data-w="80" style="background:linear-gradient(90deg,#64d2ff,#a8edff);box-shadow:0 0 8px rgba(100,210,255,0.3)"></div></div>
+          <div class="skill-meta"><span class="skill-meta-lbl">Proficiency</span><span class="skill-meta-pct" style="color:#64d2ff">80%</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-eyebrow reveal">Projects</div>
+    <h2 class="section-title reveal d1">What I've <span class="dim">Built</span></h2>
+    <p class="section-sub reveal d2">Real projects, real impact.</p>
+
+    <!-- ELEVATEIQ FEATURED -->
+    <div class="glass-card elevate-card reveal d2" style="border-color:rgba(191,90,242,0.2)">
+      <div class="elevate-hero">
+        <div class="elevate-glow1"></div>
+        <div class="elevate-glow2"></div>
+
+        <div>
+          <div class="elevate-badge">
+            ⚡ Founder &amp; CEO
+          </div>
+          <div class="elevate-title">
+            <span class="gradient-text">ElevateIQ</span><br>
+            Discord Community
+          </div>
+          <p class="elevate-desc">
+            A thriving Discord server built for editors, creators and entrepreneurs. ElevateIQ runs invite-based reward events, provides premium editing packs, and connects talented creators with real project opportunities.
+          </p>
+          <div class="elevate-tags">
+            <span class="elevate-tag">Discord Community</span>
+            <span class="elevate-tag">1K+ Members</span>
+            <span class="elevate-tag">Reward System</span>
+            <span class="elevate-tag">Editor Packs</span>
+            <span class="elevate-tag">AI Bot</span>
+          </div>
+          <a href="https://discord.gg/elevateiq" target="_blank" class="elevate-link">
+            Join ElevateIQ
+          </a>
+        </div>
+
+        <div class="elevate-features">
+          <div class="feat-box">
+            <div class="feat-icon">🎁</div>
+            <div class="feat-title">Editor Packs</div>
+            <div class="feat-desc">Premium LUTs, transitions, sound effects & templates provided free to community members.</div>
+          </div>
+          <div class="feat-box">
+            <div class="feat-icon">🏆</div>
+            <div class="feat-title">Reward Events</div>
+            <div class="feat-desc">Invite-based events where members earn real rewards — Netflix, MC, and more.</div>
+          </div>
+          <div class="feat-box">
+            <div class="feat-icon">💼</div>
+            <div class="feat-title">Project Opportunities</div>
+            <div class="feat-desc">Editors get chances to work on real projects — builds portfolio & earns income.</div>
+          </div>
+          <div class="feat-box">
+            <div class="feat-icon">🤖</div>
+            <div class="feat-title">Luna AI Bot</div>
+            <div class="feat-desc">Custom AI-powered Discord bot with ticket system, invite tracking & automation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Projects -->
+    <div class="projects-grid" style="margin-top:14px">
+
+      <div class="glass-card proj-card reveal d1" style="border-color:rgba(41,151,255,0.15)">
+        <div class="proj-visual">
+          <div class="proj-visual-inner vbg-bot">
+            <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(41,151,255,0.12),transparent);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style="opacity:.1;position:absolute">
+              <rect x="10" y="20" width="60" height="40" rx="10" stroke="#2997ff" stroke-width="2"/>
+              <circle cx="28" cy="40" r="7" fill="#2997ff"/>
+              <circle cx="52" cy="40" r="7" fill="#2997ff"/>
+              <path d="M30 15 L40 8 L50 15" stroke="#2997ff" stroke-width="2"/>
+              <circle cx="40" cy="6" r="4" stroke="#2997ff" stroke-width="2"/>
+            </svg>
+            <div style="font-size:52px;font-weight:800;letter-spacing:-0.06em;color:rgba(41,151,255,0.06);user-select:none;position:absolute">BOT</div>
+          </div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-chips">
+            <span class="proj-chip" style="color:var(--blue)">Discord Bot</span>
+            <span class="proj-chip" style="color:var(--blue)">Node.js</span>
+            <span class="proj-chip" style="color:var(--blue)">AI</span>
+          </div>
+          <div class="proj-name">Luna AI — ElevateIQ Bot</div>
+          <div class="proj-desc">Full-featured Discord bot with AI chat (Luna), ticket system, invite tracking, reward automation, anti-alt detection, giveaways, showcase system & staff management. 89 slash commands.</div>
+          <div class="proj-year">2024 — 2025 · Ongoing</div>
+        </div>
+      </div>
+
+      <div class="glass-card proj-card reveal d2" style="border-color:rgba(255,159,10,0.12)">
+        <div class="proj-visual">
+          <div class="proj-visual-inner vbg-web">
+            <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,159,10,0.1),transparent);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+            <div style="font-size:48px;font-weight:800;letter-spacing:-0.05em;color:rgba(255,159,10,0.06);user-select:none;position:absolute">WEB</div>
+          </div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-chips">
+            <span class="proj-chip" style="color:var(--orange)">Web Dev</span>
+            <span class="proj-chip" style="color:var(--orange)">HTML/CSS/JS</span>
+          </div>
+          <div class="proj-name">Portfolio Website</div>
+          <div class="proj-desc">This very website — designed and built with a clean Apple-inspired dark aesthetic. Custom cursor, scroll animations, bento grid layout and glass morphism cards.</div>
+          <div class="proj-year">2025</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-eyebrow reveal">Contact</div>
+    <h2 class="section-title reveal d1">Let's Build <span class="dim">Together.</span></h2>
+    <p class="section-sub reveal d2">Got a project, collab idea, or just want to connect? I'm all ears.</p>
+
+    <div class="contact-layout">
+      <div class="glass-card contact-form-card reveal d2">
+        <h3>Send a Message</h3>
+        <p class="sub">I'll get back within 24 hours.</p>
+        <form action="https://formspree.io/f/xyzgnqvw" method="POST" onsubmit="handleForm(event)">
+          <input type="hidden" name="_replyto" value="nitinnraghav09@gmail.com">
+          <input type="hidden" name="_subject" value="New message from Portfolio Website">
+          <input class="apple-input" type="text" name="name" placeholder="Your Name" required>
+          <input class="apple-input" type="email" name="email" placeholder="Email Address" required>
+          <input class="apple-input" type="text" name="topic" placeholder="What's it about? (Collab / Project / Other)">
+          <textarea class="apple-input" name="message" placeholder="Tell me more…"></textarea>
+          <button class="apple-submit" type="submit">Send Message</button>
+        </form>
+      </div>
+
+      <div class="contact-side">
+        <div class="glass-card contact-box reveal d3">
+          <div class="icon">💬</div>
+          <h4>Discord</h4>
+          <p>nitin_209<br>Join <a href="#">ElevateIQ Server</a></p>
+        </div>
+        <div class="glass-card contact-box reveal d4">
+          <div class="icon">📸</div>
+          <h4>Instagram</h4>
+          <p><a href="https://www.instagram.com/nitin_209_">@nitin_209_</a><br>DM for quick replies</p>
+        </div>
+        <div class="glass-card contact-box reveal d5">
+          <div class="icon">🌍</div>
+          <h4>Location</h4>
+          <p>India<br>Available remotely worldwide</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Nitin — nitin_209_</div>
+  <div class="footer-sub" style="margin-top:6px">Founder of ElevateIQ &nbsp;·&nbsp; Developer &nbsp;·&nbsp; Video Editor &nbsp;·&nbsp; © 2025</div>
+</footer>
+
+<script>
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.skill-fill').forEach(b => {
+        setTimeout(() => b.style.width = b.dataset.w + '%', 150);
+      });
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Skill fills on individual cards
+document.querySelectorAll('.skill-card').forEach(card => {
+  const io2 = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const fill = e.target.querySelector('.skill-fill');
+        if (fill) setTimeout(() => fill.style.width = fill.dataset.w + '%', 200);
+      }
+    });
+  }, { threshold: 0.3 });
+  io2.observe(card);
+});
+
+// ── NAV ACTIVE ──
+const secs = [...document.querySelectorAll('section[id]')];
+const links = [...document.querySelectorAll('.nav-links a')];
+window.addEventListener('scroll', () => {
+  const pos = window.scrollY + 80;
+  let cur = '';
+  secs.forEach(s => { if (pos >= s.offsetTop) cur = s.id; });
+  links.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--white)' : '';
+  });
+}, { passive: true });
+
+// ── FORM ──
+async function handleForm(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.apple-submit');
+  const form = e.target;
+
+  btn.textContent = 'Sending…';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      btn.textContent = 'Message Sent ✓';
+      btn.style.opacity = '1';
+      btn.style.background = '#30d158';
+      btn.style.boxShadow = '0 0 30px rgba(48,209,88,0.4)';
+      form.reset();
+      setTimeout(() => {
+        btn.textContent = 'Send Message';
+        btn.style.background = '';
+        btn.style.boxShadow = '';
+        btn.disabled = false;
+      }, 4000);
+    } else {
+      throw new Error('Failed');
+    }
+  } catch {
+    btn.textContent = 'Failed — Try Again';
+    btn.style.background = '#ff375f';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent = 'Send Message';
+      btn.style.background = '';
+    }, 3000);
+  }
+}
+</script>
+</body>
+</html>
